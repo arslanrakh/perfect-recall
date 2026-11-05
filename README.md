@@ -6,27 +6,31 @@ An independent 120-question LongMemEval-S experiment reduced final-answer errors
 
 PerfectRecall asks Jev to evaluate every eligible memory against short criteria supplied by the calling agent. It returns the original evidence for that agent to reason over. There is no embedding model, vector index, or hidden query-writing model in the production package.
 
+Jev is a remote decision model. It answers typed questions, for example whether one memory matches one criterion, and does not generate text. The default model is `typesafe/jev-1.13` on OpenRouter: you need an OpenRouter API key, and recall costs money.
+
 ## Install in Hermes
 
-For Hermes versions with Git plugin installation, install the directory plugin and run the native memory setup:
+Hermes versions with Git plugin installation can install the repository as a directory plugin. Then run the native memory setup:
 
 ```sh
-hermes plugins install https://github.com/arslanr-com/perfectrecall
+hermes plugins install https://github.com/arslanrakh/perfectrecall
 hermes memory setup perfectrecall
 ```
 
-This installs the repository's code and declared Python dependencies without a separate PerfectRecall pip installation. The setup command backs up configuration, selects PerfectRecall, and disables legacy source plugins while keeping their files. Set `OPENROUTER_API_KEY` in the Hermes environment and restart. A catalog listing is being submitted; installation by the bare name `perfectrecall` requires its acceptance. [Installation and rollback](docs/INSTALLATION.md).
+This installs the repository's code and declared Python dependencies without a separate PerfectRecall pip installation. The setup command backs up configuration, selects PerfectRecall, and disables legacy source plugins while keeping their files. Set `OPENROUTER_API_KEY` in the Hermes environment and restart.
+
+PerfectRecall is not in the Hermes plugin catalog, so `hermes plugins install perfectrecall` by bare name does not work. Recent Hermes versions scan plugins installed from a Git URL. For this repository the scan returns a "caution" verdict, mostly for benchmark scripts, documentation and the inherited database repair tool, and Hermes refuses the install. Read the findings; if you accept them, run the install again with `--force`. [Installation and rollback](docs/INSTALLATION.md).
 
 ### Install as a Python package
 
 Python 3.10 or newer is required. Install into **the same Python environment that runs Hermes**. On a standard Hermes installation:
 
 ```sh
-~/.hermes/hermes-agent/venv/bin/python -m pip install 'git+https://github.com/arslanr-com/perfectrecall.git'
+~/.hermes/hermes-agent/venv/bin/python -m pip install 'git+https://github.com/arslanrakh/perfectrecall.git'
 ~/.hermes/hermes-agent/venv/bin/python -m perfectrecall.install
 ```
 
-For another Hermes location, use its Python executable. This repository is the installation source; a PyPI release is not assumed.
+For another Hermes location, use its Python executable. This repository is the installation source; there is no PyPI release. Hermes discovers the installed package by its `hermes_agent.memory_providers` entry point.
 
 Set `OPENROUTER_API_KEY` in the environment used to start Hermes, or in your existing Hermes secret configuration. Restart Hermes. The installer selects `memory.provider: perfectrecall`, backs up an existing configuration, and disables legacy source plugins by moving them intact outside the plugin discovery directory. It also works with an empty Hermes profile and no previous memory provider. Hermes itself must already be installed.
 
@@ -36,6 +40,22 @@ python -m perfectrecall jev-status
 ```
 
 `jev-status` reports configuration and key presence; it does not print the key or make an API call. [Installation, migration, and rollback](docs/INSTALLATION.md).
+
+## Configuration
+
+PerfectRecall reads these environment variables. Each `PERFECTRECALL_*` variable overrides the legacy `MNEMOSYNE_*` variable of the same suffix, so existing Mnemosyne settings keep working.
+
+| Variable | Default | Effect |
+|---|---|---|
+| `OPENROUTER_API_KEY` | none | Key for the default Jev provider. Recall fails without it. |
+| `PERFECTRECALL_JEV_PROVIDER` | `openrouter` | `openrouter` or `typesafe`. `typesafe` reads `TYPESAFE_API_KEY` instead. |
+| `PERFECTRECALL_JEV_MODEL` | `typesafe/jev-1.13` | Jev model name; with `typesafe`, the default is `jev-1.13.0`. |
+| `PERFECTRECALL_JEV_TIMEOUT` | `30` | Seconds per Jev request. |
+| `PERFECTRECALL_JEV_WORKERS` | `128` | Concurrent Jev requests, 1 to 256. |
+| `PERFECTRECALL_PREFETCH_MODE` | `economy` | `economy` or `strict`; see below. |
+| `PERFECTRECALL_DATA_DIR` | `$HERMES_HOME/mnemosyne/data` | Where the SQLite databases live; `~/.hermes/mnemosyne/data` without `HERMES_HOME`. |
+
+`python -m perfectrecall jev-status` prints the resolved provider, model, worker count, data directory, and whether the key is set.
 
 ## Automatic memory
 
@@ -70,7 +90,14 @@ hits = memory.recall(
 )
 ```
 
-The `mnemosyne` Python namespace and `mnemosyne_*` tool names remain as compatibility interfaces. To run the inherited MCP tool surface, install the `mcp` extra and use `perfectrecall mcp`. Optional encrypted synchronization uses the `sync` extra.
+The `mnemosyne` Python namespace and `mnemosyne_*` tool names remain as compatibility interfaces. To run the inherited MCP tool surface, install the `mcp` extra and start the server (stdio by default; `--transport` selects SSE or HTTP):
+
+```sh
+python -m pip install 'perfectrecall[mcp] @ git+https://github.com/arslanrakh/perfectrecall.git'
+perfectrecall mcp
+```
+
+Optional encrypted synchronization uses the `sync` extra in the same way.
 
 The tool description teaches the calling agent to ask up to three short, concrete yes/no questions. It should retrieve partial facts, follow links through subsequent searches, and perform comparisons itself. [Tool guidance](docs/TOOLS.md).
 
@@ -78,19 +105,26 @@ The tool description teaches the calling agent to ask up to three short, concret
 
 SQLite remains local. **Eligible memory text and queries are sent to the configured Jev API** for decisions. Optional Hermes-assisted consolidation can also use the host's language model. This is not an offline or zero-cloud memory system. Keep credentials outside the repository. [Privacy and security](SECURITY.md).
 
-Recall scans the full eligible corpus using native Jev question batches, pooled HTTPS connections, and parallel duplicate checks. A live check of the published build with **10,000 mixed-length records** completed automatic retrieval after reopening in **4.19 seconds**. An explicit search with three criteria took **9.57 seconds cold / 0.73 seconds warm**. These are single synthetic observations, not a latency guarantee. [Measurements and reproduction](docs/PERFORMANCE.md).
+Recall scans the full eligible corpus using native Jev question batches, pooled HTTPS connections, and parallel duplicate checks. A live check of the 0.1.0a2 wheel with **10,000 mixed-length records** completed automatic retrieval after reopening in **4.19 seconds**. An explicit search with three criteria took **9.57 seconds cold / 0.73 seconds warm**. These are single synthetic observations, not a latency guarantee. [Measurements and reproduction](docs/PERFORMANCE.md).
 
 The default remains 128 concurrent requests, configurable with `PERFECTRECALL_JEV_WORKERS` from 1 to 256. Batching reduces network round trips; raising thread count alone did not solve the original problem. Prefetch has a 6.5-second cooperative decision budget to leave cleanup time before Hermes' eight-second window. Required decision failures are reported as failures, never as a successful partial scan. Cost and latency still grow with text volume.
 
 PerfectRecall is an alpha release. The name describes the goal; it is not a guarantee of perfect memory. Model availability, routing, prices, and results can change.
 
-## Development and credits
+## Development
 
 ```sh
 python -m pip install -e '.[dev]'
 python -m pytest -q
-python -m build
+ruff check
 python scripts/audit_release.py
+python -m build
 ```
 
-PerfectRecall is an independent fork of [Mnemosyne](https://github.com/mnemosyne-oss/mnemosyne), originally by Abdias J. The inherited storage, memory lifecycle, integrations, and much of the tool surface are upstream work. See [LICENSE](LICENSE), [NOTICE](NOTICE), and [third-party notices](THIRD_PARTY_NOTICES.md). No affiliation or endorsement is implied.
+The test suite needs no API key. Live checks in `scripts/` run only with `--live` and cost money. [CONTRIBUTING.md](CONTRIBUTING.md) has the rules for changes; [AGENTS.md](AGENTS.md) describes the layout for coding agents and people alike.
+
+## Credits and license
+
+PerfectRecall is an independent fork of [Mnemosyne](https://github.com/mnemosyne-oss/mnemosyne), originally by Abdias J. The inherited storage, memory lifecycle, integrations, and much of the tool surface are upstream work. No affiliation or endorsement is implied.
+
+MIT. See [LICENSE](LICENSE), [NOTICE](NOTICE), and [third-party notices](THIRD_PARTY_NOTICES.md).
