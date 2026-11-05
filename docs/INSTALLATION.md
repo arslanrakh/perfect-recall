@@ -33,7 +33,7 @@ Install PerfectRecall in the Python environment running Hermes. Installing in an
 Hermes must already be installed. PerfectRecall does not depend on an existing Mnemosyne installation, database, configuration file, or source plugin.
 
 ```sh
-python -m pip install --pre perfect-recall
+python -m pip install 'git+https://github.com/arslanrakh/perfect-recall.git'
 python -m perfectrecall.install --hermes-home /path/to/hermes-profile
 ```
 
