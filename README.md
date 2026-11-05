@@ -13,7 +13,7 @@ Jev is a remote decision model. It answers typed questions, for example whether 
 Hermes versions with Git plugin installation can install the repository as a directory plugin. Then run the native memory setup:
 
 ```sh
-hermes plugins install https://github.com/arslanrakh/perfectrecall
+hermes plugins install https://github.com/arslanrakh/perfect-recall
 hermes memory setup perfectrecall
 ```
 
@@ -26,11 +26,11 @@ PerfectRecall is not in the Hermes plugin catalog, so `hermes plugins install pe
 Python 3.10 or newer is required. Install into **the same Python environment that runs Hermes**. On a standard Hermes installation:
 
 ```sh
-~/.hermes/hermes-agent/venv/bin/python -m pip install 'git+https://github.com/arslanrakh/perfectrecall.git'
+~/.hermes/hermes-agent/venv/bin/python -m pip install --pre perfect-recall
 ~/.hermes/hermes-agent/venv/bin/python -m perfectrecall.install
 ```
 
-For another Hermes location, use its Python executable. This repository is the installation source; there is no PyPI release. Hermes discovers the installed package by its `hermes_agent.memory_providers` entry point.
+For another Hermes location, use its Python executable. The package is on PyPI as `perfect-recall`; releases are alphas, hence `--pre`. To install the current `main` instead, use `'git+https://github.com/arslanrakh/perfect-recall.git'`. Hermes discovers the installed package by its `hermes_agent.memory_providers` entry point.
 
 Set `OPENROUTER_API_KEY` in the environment used to start Hermes, or in your existing Hermes secret configuration. Restart Hermes. The installer selects `memory.provider: perfectrecall`, backs up an existing configuration, and disables legacy source plugins by moving them intact outside the plugin discovery directory. It also works with an empty Hermes profile and no previous memory provider. Hermes itself must already be installed.
 
@@ -93,7 +93,7 @@ hits = memory.recall(
 The `mnemosyne` Python namespace and `mnemosyne_*` tool names remain as compatibility interfaces. To run the inherited MCP tool surface, install the `mcp` extra and start the server (stdio by default; `--transport` selects SSE or HTTP):
 
 ```sh
-python -m pip install 'perfectrecall[mcp] @ git+https://github.com/arslanrakh/perfectrecall.git'
+python -m pip install --pre 'perfect-recall[mcp]'
 perfectrecall mcp
 ```
 

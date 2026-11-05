@@ -5,7 +5,7 @@
 From version 0.1.0a5, the repository is also a directory plugin. In a Hermes installation with Git plugin support:
 
 ```sh
-hermes plugins install https://github.com/arslanrakh/perfectrecall
+hermes plugins install https://github.com/arslanrakh/perfect-recall
 hermes memory setup perfectrecall
 ```
 
@@ -33,7 +33,7 @@ Install PerfectRecall in the Python environment running Hermes. Installing in an
 Hermes must already be installed. PerfectRecall does not depend on an existing Mnemosyne installation, database, configuration file, or source plugin.
 
 ```sh
-python -m pip install 'git+https://github.com/arslanrakh/perfectrecall.git'
+python -m pip install --pre perfect-recall
 python -m perfectrecall.install --hermes-home /path/to/hermes-profile
 ```
 
@@ -72,7 +72,7 @@ Stop Hermes. Restore the backed-up `config.yaml` and move the saved legacy plugi
 python -m perfectrecall --version
 python -m perfectrecall jev-status
 python scripts/verify_hermes.py --hermes-root /path/to/hermes-agent \
-  --wheel dist/perfectrecall-0.1.0a5-py3-none-any.whl --output benchmarks/runs/hermes.json
+  --wheel dist/perfect_recall-0.1.0a6-py3-none-any.whl --output benchmarks/runs/hermes.json
 ```
 
 The last command runs against Hermes' real loader and manager in a temporary profile. Add `--live` for bounded paid Jev requests with `OPENROUTER_API_KEY`. It checks automatic user capture and memory injection after reopening, without any manual memory tool call. It does not simulate a full interactive agent conversation.

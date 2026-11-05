@@ -20,8 +20,8 @@ Mnemosyne database, configuration and tool call work unchanged.
 Three ways to use it: a Hermes memory provider (a Git directory plugin, or an installed package
 found by entry point), an MCP server (`perfectrecall mcp`), and a Python library
 (`from perfectrecall import PerfectRecall`). It is not in the Hermes plugin catalog. Releases are
-alphas (`perfectrecall.__version__`); there is no PyPI release, and GitHub releases carry the
-wheel and sdist.
+alphas (`perfectrecall.__version__`); from 0.1.0a6 they are on PyPI as `perfect-recall` (the import
+name stays `perfectrecall`), and GitHub pre-releases carry the same wheel and sdist.
 
 Jev is called through OpenRouter's Decisions API by default (`typesafe/jev-1.13`,
 `OPENROUTER_API_KEY`), or TypeSafe directly (`PERFECTRECALL_JEV_PROVIDER=typesafe`,
@@ -81,7 +81,7 @@ Without `--live`, Jev answers are scripted and nothing is billed.
 
 ```sh
 python scripts/verify_hermes.py --hermes-root /path/to/hermes-agent --plugin-dir . --output /tmp/hermes-dir.json
-python scripts/verify_hermes.py --hermes-root /path/to/hermes-agent --wheel dist/perfectrecall-<version>-py3-none-any.whl --output /tmp/hermes-wheel.json
+python scripts/verify_hermes.py --hermes-root /path/to/hermes-agent --wheel dist/perfect_recall-<version>-py3-none-any.whl --output /tmp/hermes-wheel.json
 ```
 
 The first copies this checkout into a temporary profile as a directory plugin and runs native
@@ -115,7 +115,8 @@ The owner releases. An agent prepares, verifies and stops.
    Record checks in `docs/VERIFICATION.md` when they were run.
 3. Run the Develop commands, both `verify_hermes.py` modes, and
    `python scripts/audit_release.py --artifact dist/<wheel> --artifact dist/<sdist>`.
-4. The owner tags `vX.Y.Z...`, pushes, and creates the GitHub pre-release with the wheel and sdist.
+4. The owner tags `vX.Y.Z...`, pushes, creates the GitHub pre-release with the wheel and sdist, and
+   uploads both to PyPI (`uv publish dist/*`).
 
 The sdist follows `MANIFEST.in` (an explicit list). `AGENTS.md` and `CLAUDE.md` are not in it and
 not in the wheel; keep it that way.

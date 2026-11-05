@@ -1,5 +1,5 @@
 name: perfectrecall
-version: 0.1.0a5
+version: 0.1.0a6
 description: Jev-powered memory for Hermes; preserves Mnemosyne databases and tool
   calls. Paid remote inference.
 author: Arslan (fork); Abdias J (upstream)

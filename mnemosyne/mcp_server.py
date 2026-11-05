@@ -542,7 +542,7 @@ def _build_mcp_server() -> Server:
 async def _run_stdio() -> None:
     """Run MCP server over stdio transport."""
     if not _MCP_AVAILABLE:
-        raise RuntimeError("MCP not installed. Run: pip install perfectrecall[mcp]")
+        raise RuntimeError("MCP not installed. Run: pip install perfect-recall[mcp]")
 
     server = _build_mcp_server()
 
@@ -562,7 +562,7 @@ def _build_sse_app(host: str = "127.0.0.1"):
     precedence over the single token.
     """
     if not _MCP_AVAILABLE:
-        raise RuntimeError("MCP not installed. Run: pip install perfectrecall[mcp]")
+        raise RuntimeError("MCP not installed. Run: pip install perfect-recall[mcp]")
 
     try:
         from mcp.server.sse import SseServerTransport
@@ -617,7 +617,7 @@ def _build_sse_app(host: str = "127.0.0.1"):
             if AuthenticatedUser is None or AccessToken is None:
                 raise RuntimeError(
                     "Multi-token SSE auth requires the mcp auth middleware "
-                    "(AuthenticatedUser/AccessToken); install perfectrecall[mcp]."
+                    "(AuthenticatedUser/AccessToken); install perfect-recall[mcp]."
                 )
             middleware.append(Middleware(_BearerTokenMiddleware, tokens=multi_tokens))
             logger.info(
@@ -702,7 +702,7 @@ def _build_streamable_http_app(
     precedence over the single token.
     """
     if not _MCP_AVAILABLE:
-        raise RuntimeError("MCP not installed. Run: pip install perfectrecall[mcp]")
+        raise RuntimeError("MCP not installed. Run: pip install perfect-recall[mcp]")
 
     require_auth, token = _resolve_http_auth(host)
     multi_tokens = _resolve_multi_tokens() if require_auth else None
@@ -724,7 +724,7 @@ def _build_streamable_http_app(
             if AuthenticatedUser is None or AccessToken is None:
                 raise RuntimeError(
                     "Multi-token HTTP auth requires the mcp auth middleware "
-                    "(AuthenticatedUser/AccessToken); install perfectrecall[mcp]."
+                    "(AuthenticatedUser/AccessToken); install perfect-recall[mcp]."
                 )
             app.add_middleware(_BearerTokenMiddleware, tokens=multi_tokens)
             logger.info(

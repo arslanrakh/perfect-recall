@@ -279,7 +279,7 @@ Please give me the exact Python script to run. Test it for syntax errors before 
 
 ### Step 1: Install dependencies
 ```bash
-pip install perfectrecall
+pip install perfect-recall
 {install}
 ```
 

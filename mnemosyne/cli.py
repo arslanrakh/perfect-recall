@@ -37,7 +37,7 @@ def _distribution_version(distribution: str) -> str:
     except importlib.metadata.PackageNotFoundError:
         if distribution == "perfectrecall":
             try:
-                return importlib.metadata.version("perfectrecall")
+                return importlib.metadata.version("perfect-recall")
             except importlib.metadata.PackageNotFoundError:
                 pass
         return "unavailable"
@@ -716,7 +716,7 @@ def cmd_mcp(args):
 
         mcp_main(args)
     except ImportError:
-        print("MCP not available. Install with: pip install perfectrecall[mcp]")
+        print("MCP not available. Install with: pip install perfect-recall[mcp]")
         sys.exit(1)
 
 

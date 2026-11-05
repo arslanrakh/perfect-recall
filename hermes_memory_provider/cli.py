@@ -68,7 +68,7 @@ def _distribution_version(distribution: str) -> str:
     except importlib.metadata.PackageNotFoundError:
         if distribution == "perfectrecall":
             try:
-                return importlib.metadata.version("perfectrecall")
+                return importlib.metadata.version("perfect-recall")
             except importlib.metadata.PackageNotFoundError:
                 pass
         return "unavailable"

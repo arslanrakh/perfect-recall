@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0a6 — Renamed to perfect-recall, on PyPI
+
+- The repository is now `arslanrakh/perfect-recall` and the Python distribution `perfect-recall`, published on PyPI (`pip install --pre perfect-recall`). The import name, the `perfectrecall` command and the Hermes provider name are unchanged.
+- Install hints in the code name `perfect-recall`; the version lookup finds the renamed distribution.
+- README and installation docs: the Hermes catalog listing is not pending, Git URL installs need `--force` past Hermes' scan, a configuration table; AGENTS.md for coding agents, imported by CLAUDE.md.
+
+The Jev retrieval engine is unchanged. This release does not claim new quality or latency measurements.
+
 ## 0.1.0a5 — Native Hermes plugin installation
 
 - Add a directory-plugin entry point so Hermes can install the repository directly from a pinned Git commit without a separate PerfectRecall package installation.

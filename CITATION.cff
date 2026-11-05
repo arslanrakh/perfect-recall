@@ -3,8 +3,8 @@ message: "If you use PerfectRecall in research, cite this software and the bench
 title: PerfectRecall
 authors:
   - name: Arslan
-version: 0.1.0a5
+version: 0.1.0a6
 license: MIT
-repository-code: "https://github.com/arslanrakh/perfectrecall"
-url: "https://github.com/arslanrakh/perfectrecall"
+repository-code: "https://github.com/arslanrakh/perfect-recall"
+url: "https://github.com/arslanrakh/perfect-recall"
 type: software
