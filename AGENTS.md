@@ -20,8 +20,9 @@ Mnemosyne database, configuration and tool call work unchanged.
 Three ways to use it: a Hermes memory provider (a Git directory plugin, or an installed package
 found by entry point), an MCP server (`perfectrecall mcp`), and a Python library
 (`from perfectrecall import PerfectRecall`). It is not in the Hermes plugin catalog. Releases are
-alphas (`perfectrecall.__version__`); from 0.1.0a6 they are on PyPI as `perfect-recall` (the import
-name stays `perfectrecall`), and GitHub pre-releases carry the same wheel and sdist.
+alphas (`perfectrecall.__version__`) published as GitHub pre-releases. It is installed from source,
+the Git URL or a checkout; it is not on PyPI, by the owner's choice. The distribution is
+`perfect-recall` from 0.1.0a6; the import name stays `perfectrecall`.
 
 Jev is called through OpenRouter's Decisions API by default (`typesafe/jev-1.13`,
 `OPENROUTER_API_KEY`), or TypeSafe directly (`PERFECTRECALL_JEV_PROVIDER=typesafe`,
@@ -115,8 +116,8 @@ The owner releases. An agent prepares, verifies and stops.
    Record checks in `docs/VERIFICATION.md` when they were run.
 3. Run the Develop commands, both `verify_hermes.py` modes, and
    `python scripts/audit_release.py --artifact dist/<wheel> --artifact dist/<sdist>`.
-4. The owner tags `vX.Y.Z...`, pushes, creates the GitHub pre-release with the wheel and sdist, and
-   uploads both to PyPI (`uv publish dist/*`).
+4. The owner tags `vX.Y.Z...`, pushes, and creates the GitHub pre-release with the wheel and sdist.
+   Nothing goes to PyPI.
 
 The sdist follows `MANIFEST.in` (an explicit list). `AGENTS.md` and `CLAUDE.md` are not in it and
 not in the wheel; keep it that way.
@@ -148,4 +149,4 @@ not in the wheel; keep it that way.
   official LongMemEval score.
 - Claim Hermes catalog availability. Installation is by Git URL, and Hermes (checked 2026-11-04)
   refuses it after its security scan unless the user passes `--force`.
-- Push, tag, publish to PyPI, or change GitHub settings unless the owner asks.
+- Push, tag, or change GitHub settings unless the owner asks. Never publish to PyPI.

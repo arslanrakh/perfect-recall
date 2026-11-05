@@ -4,7 +4,7 @@ Mnemosyne - OpenWebUI Tool Integration
 Class-based @tool with Pydantic Valves for configuration.
 
 For OpenWebUI (class-based Valves pattern):
-    1. pip install perfect-recall
+    1. pip install git+https://github.com/arslanrakh/perfect-recall.git
     2. Create bridge file in OpenWebUI's data/tools/ directory:
        echo "from openwebui_tool import MnemosyneTool as Mnemosyne" \\
          > /path/to/open-webui/data/tools/mnemosyne.py

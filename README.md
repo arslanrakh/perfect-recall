@@ -30,7 +30,7 @@ Python 3.10 or newer is required. Install into **the same Python environment tha
 ~/.hermes/hermes-agent/venv/bin/python -m perfectrecall.install
 ```
 
-For another Hermes location, use its Python executable. This repository is the installation source; there is no PyPI release yet. Hermes discovers the installed package by its `hermes_agent.memory_providers` entry point.
+For another Hermes location, use its Python executable. This repository is the installation source; PerfectRecall is not published on PyPI. Hermes discovers the installed package by its `hermes_agent.memory_providers` entry point.
 
 Set `OPENROUTER_API_KEY` in the environment used to start Hermes, or in your existing Hermes secret configuration. Restart Hermes. The installer selects `memory.provider: perfectrecall`, backs up an existing configuration, and disables legacy source plugins by moving them intact outside the plugin discovery directory. It also works with an empty Hermes profile and no previous memory provider. Hermes itself must already be installed.
 

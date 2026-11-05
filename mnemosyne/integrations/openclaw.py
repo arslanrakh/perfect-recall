@@ -8,9 +8,7 @@ Two modes:
   2. MCP server (works with any MCP client, including OpenClaw)
 
 Installation:
-    pip install perfect-recall[openclaw]
-    # or
-    pip install perfect-recall && pip install openclaw
+    pip install git+https://github.com/arslanrakh/perfect-recall.git openclaw
 
 Usage:
     from openclaw import MnemosyneProvider

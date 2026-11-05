@@ -183,7 +183,7 @@ class SyncEncryption:
             return (key, salt)
         except ImportError:
             raise ImportError(
-                "SyncEncryption requires either 'cryptography>=41.0' or 'argon2-cffi' for key derivation. Install with: pip install perfect-recall[sync]"
+                "SyncEncryption requires either 'cryptography>=41.0' or 'argon2-cffi' for key derivation. Install with: pip install 'perfect-recall[sync] @ git+https://github.com/arslanrakh/perfect-recall.git'"
             )
 
     @staticmethod
@@ -211,7 +211,7 @@ class SyncEncryption:
             return base64.b64encode(encrypted).decode("ascii")
         except ImportError:
             raise ImportError(
-                "SyncEncryption.encrypt_payload requires 'cryptography>=41.0' or 'PyNaCl>=1.5'. Install with: pip install perfect-recall[sync]"
+                "SyncEncryption.encrypt_payload requires 'cryptography>=41.0' or 'PyNaCl>=1.5'. Install with: pip install 'perfect-recall[sync] @ git+https://github.com/arslanrakh/perfect-recall.git'"
             )
 
     @staticmethod
@@ -234,7 +234,7 @@ class SyncEncryption:
             return json.loads(decrypted.decode("utf-8"))
         except ImportError:
             raise ImportError(
-                "SyncEncryption.decrypt_payload requires 'cryptography>=41.0' or 'PyNaCl>=1.5'. Install with: pip install perfect-recall[sync]"
+                "SyncEncryption.decrypt_payload requires 'cryptography>=41.0' or 'PyNaCl>=1.5'. Install with: pip install 'perfect-recall[sync] @ git+https://github.com/arslanrakh/perfect-recall.git'"
             )
 
     @classmethod

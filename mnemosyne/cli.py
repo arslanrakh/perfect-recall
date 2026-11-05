@@ -716,7 +716,7 @@ def cmd_mcp(args):
 
         mcp_main(args)
     except ImportError:
-        print("MCP not available. Install with: pip install perfect-recall[mcp]")
+        print("MCP not available. Install with: pip install 'perfect-recall[mcp] @ git+https://github.com/arslanrakh/perfect-recall.git'")
         sys.exit(1)
 
 
