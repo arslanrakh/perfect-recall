@@ -21,8 +21,8 @@ test = ["pytest>=7", "pytest-timeout>=2.1", "httpx>=0.27", "build", "tomli>=2; p
 dev = ["pytest>=7", "pytest-timeout>=2.1", "httpx>=0.27", "build", "ruff>=0.15"]
 
 [project.urls]
-Repository = "https://github.com/arslanr-com/perfectrecall"
-Issues = "https://github.com/arslanr-com/perfectrecall/issues"
+Repository = "https://github.com/arslanrakh/perfectrecall"
+Issues = "https://github.com/arslanrakh/perfectrecall/issues"
 "Upstream Mnemosyne" = "https://github.com/mnemosyne-oss/mnemosyne"
 
 [project.scripts]
